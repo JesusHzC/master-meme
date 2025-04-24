@@ -19,21 +19,10 @@ private val MasterMemeColorScheme = darkColorScheme(
 
 @Composable
 fun MasterMemeTheme(
-    darkTheme: Boolean = true,
-    // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = true,
     content: @Composable () -> Unit
 ) {
-    val colorScheme = when {
-        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
-            val context = LocalContext.current
-            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
-        }
-        else -> MasterMemeColorScheme
-    }
-
     MaterialTheme(
-        colorScheme = colorScheme,
+        colorScheme = MasterMemeColorScheme,
         typography = Typography,
         content = content
     )
