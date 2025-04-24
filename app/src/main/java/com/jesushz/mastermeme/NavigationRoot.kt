@@ -7,6 +7,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
 import com.jesushz.mastermeme.core.util.Routes
+import com.jesushz.mastermeme.editor.presentation.EditorScreenRoot
 import com.jesushz.mastermeme.home.presentation.HomeScreenRoot
 
 @Composable
@@ -27,7 +28,15 @@ private fun NavGraphBuilder.homeGraph(navController: NavHostController) {
         startDestination = Routes.HomeScreen
     ) {
         composable<Routes.HomeScreen> {
-            HomeScreenRoot()
+            HomeScreenRoot(
+                onNavigateToEditor = { template ->
+                    navController.navigate(Routes.EditorScreen(template.image))
+                }
+            )
+        }
+
+        composable<Routes.EditorScreen> {
+            EditorScreenRoot()
         }
     }
 }

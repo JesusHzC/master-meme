@@ -57,6 +57,7 @@ class HomeViewModel: ViewModel() {
                     )
                 }
             }
+            else -> Unit
         }
     }
 

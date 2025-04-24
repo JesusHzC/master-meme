@@ -23,17 +23,26 @@ import com.jesushz.mastermeme.R
 import com.jesushz.mastermeme.home.presentation.components.HomeTopBar
 import com.jesushz.mastermeme.core.presentation.designsystem.components.MasterMemeScaffold
 import com.jesushz.mastermeme.core.presentation.designsystem.theme.MasterMemeTheme
+import com.jesushz.mastermeme.home.data.MemeTemplate
 import com.jesushz.mastermeme.home.presentation.components.HomeBottomSheet
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun HomeScreenRoot(
-    viewModel: HomeViewModel = koinViewModel()
+    viewModel: HomeViewModel = koinViewModel(),
+    onNavigateToEditor: (MemeTemplate) -> Unit
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     HomeScreen(
         state = state,
-        onAction = viewModel::onAction
+        onAction = { action ->
+            when (action) {
+                is HomeAction.OnTemplateSelected -> {
+                    onNavigateToEditor(action.template)
+                }
+                else -> viewModel.onAction(action)
+            }
+        }
     )
 }
 
@@ -46,6 +55,9 @@ private fun HomeScreen(
         showBottomSheet = state.showBottomSheet,
         onDismissBottomSheet = {
             onAction(HomeAction.OnDismissBottomSheet)
+        },
+        onTemplateSelected = {
+            onAction(HomeAction.OnTemplateSelected(it))
         }
     )
     MasterMemeScaffold(
