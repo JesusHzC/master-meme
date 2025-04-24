@@ -36,7 +36,11 @@ private fun NavGraphBuilder.homeGraph(navController: NavHostController) {
         }
 
         composable<Routes.EditorScreen> {
-            EditorScreenRoot()
+            EditorScreenRoot(
+                onNavigateUp = {
+                    navController.navigateUp()
+                }
+            )
         }
     }
 }

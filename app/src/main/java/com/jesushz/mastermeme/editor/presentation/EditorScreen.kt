@@ -27,12 +27,18 @@ import org.koin.androidx.compose.koinViewModel
 
 @Composable
 fun EditorScreenRoot(
-    viewModel: EditorViewModel = koinViewModel()
+    viewModel: EditorViewModel = koinViewModel(),
+    onNavigateUp: () -> Unit
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     EditorScreen(
         state = state,
-        onAction = viewModel::onAction
+        onAction = { action ->
+            when (action) {
+                EditorAction.OnBackClick -> onNavigateUp()
+                else -> viewModel.onAction(action)
+            }
+        }
     )
 }
 
