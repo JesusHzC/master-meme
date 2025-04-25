@@ -1,6 +1,5 @@
 package com.jesushz.mastermeme.editor.presentation
 
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
@@ -47,10 +46,20 @@ class EditorViewModel(
                 TODO()
             }
             EditorAction.OnClearTextClick -> {
-                TODO()
+                _state.update {
+                    it.copy(
+                        textFieldList = it.textFieldList.toMutableList().apply {
+                            if (this.isNotEmpty()) {
+                                removeAt(size - 1)
+                            }
+                        },
+                        currentTextField = it.textFieldList.lastOrNull(),
+                        showTextActions = it.textFieldList.size > 1
+                    )
+                }
             }
-            EditorAction.OnSaveMemeClick -> {
-                TODO()
+            is EditorAction.OnSaveMemeClick -> {
+                // Save bitmap
             }
             EditorAction.OnSaveTextClick -> {
                 _state.update {
@@ -135,7 +144,6 @@ class EditorViewModel(
                 }
             }
             is EditorAction.OnTextFieldClick -> {
-                println("currentTextField: ${action.textField}")
                 _state.update {
                     it.copy(
                         currentTextField = action.textField

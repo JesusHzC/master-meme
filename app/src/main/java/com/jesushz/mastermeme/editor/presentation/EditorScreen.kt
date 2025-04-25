@@ -116,7 +116,9 @@ private fun EditorScreen(
                         onColorSelected = {
                             onAction(EditorAction.OnColorSelected(it))
                         },
-                        onClearTextClick = {},
+                        onClearTextClick = {
+                            onAction(EditorAction.OnClearTextClick)
+                        },
                         onSaveTextClick = {
                             onAction(EditorAction.OnSaveTextClick)
                         }
@@ -130,7 +132,13 @@ private fun EditorScreen(
                         onAddTextClick = {
                             onAction(EditorAction.OnAddTextClick)
                         },
-                        onSaveMemeClick = {}
+                        onSaveMemeClick = {
+                            editorView?.captureEditedBitmap()?.let {
+                                onAction(
+                                    EditorAction.OnSaveMemeClick(it)
+                                )
+                            }
+                        }
                     )
                 }
             }
