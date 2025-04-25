@@ -1,19 +1,18 @@
 package com.jesushz.mastermeme.editor.presentation
 
 import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
@@ -52,6 +51,12 @@ private fun EditorScreen(
     BackHandler {
         onAction(EditorAction.OnBackClick)
     }
+    var editorView by remember { mutableStateOf<EditorView?>(null) }
+
+    LaunchedEffect(state.textFieldList) {
+        editorView?.updateTextFieldList(state.textFieldList)
+    }
+
     MasterMemeScaffold(
         topBar = {
             EditorTopBar(
@@ -77,7 +82,18 @@ private fun EditorScreen(
                 state.templateImage?.let { template ->
                     AndroidView(
                         factory = { context ->
-                            EditorView(context, template)
+                            EditorView(
+                                context,
+                                template,
+                                onTextFieldClick = {
+                                    onAction(EditorAction.OnTextFieldClick(it))
+                                },
+                                onDeleteTextField = {
+                                    onAction(EditorAction.OnDeleteTextField(it))
+                                }
+                            ).also {
+                                editorView = it
+                            }
                         }
                     )
                 }
