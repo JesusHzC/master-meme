@@ -29,6 +29,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import com.jesushz.mastermeme.R
+import com.jesushz.mastermeme.core.presentation.ui.clearFocusOnKeyboardDismiss
 import com.jesushz.mastermeme.editor.data.EditorTextField
 import kotlin.math.roundToInt
 
@@ -69,6 +70,7 @@ fun DraggableTextField(
                 fontSize = textField.textSize,
             ),
             modifier = Modifier
+                .clearFocusOnKeyboardDismiss()
                 .onFocusChanged { isFocused = it.isFocused }
                 .then(
                     if (isFocused) {
