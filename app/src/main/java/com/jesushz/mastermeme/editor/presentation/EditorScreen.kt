@@ -92,6 +92,18 @@ private fun EditorScreen(
                         modifier = Modifier
                             .align(Alignment.BottomCenter)
                             .fillMaxWidth(),
+                        fontSelected = state.fontSelected,
+                        fontSizeSelected = state.fontSizeSelected,
+                        colorSelected = state.colorSelected,
+                        onFontSelected = {
+                            onAction(EditorAction.OnFontSelected(it))
+                        },
+                        onFontSizeChanged = {
+                            onAction(EditorAction.OnFontSizeSelected(it))
+                        },
+                        onColorSelected = {
+                            onAction(EditorAction.OnColorSelected(it))
+                        },
                         onClearTextClick = {},
                         onSaveTextClick = {
                             onAction(EditorAction.OnSaveTextClick)

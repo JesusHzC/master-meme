@@ -1,5 +1,6 @@
 package com.jesushz.mastermeme.editor.presentation
 
+import androidx.compose.ui.unit.dp
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.navigation.toRoute
@@ -46,6 +47,28 @@ class EditorViewModel(
                 _state.update {
                     it.copy(
                         showTextActions = false
+                    )
+                }
+            }
+            is EditorAction.OnColorSelected -> {
+                _state.update {
+                    it.copy(
+                        colorSelected = action.color
+                    )
+                }
+            }
+            is EditorAction.OnFontSelected -> {
+                _state.update {
+                    it.copy(
+                        fontSelected = action.font
+                    )
+                }
+            }
+            is EditorAction.OnFontSizeSelected -> {
+                _state.update {
+                    it.copy(
+                        fontSizeSelected = action.fontSize,
+                        fontSizeSelectedDp = action.fontSize.dp
                     )
                 }
             }
