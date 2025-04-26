@@ -16,4 +16,6 @@ sealed interface EditorAction {
     data class OnColorSelected(val color: Color): EditorAction
     data class OnTextFieldClick(val textField: EditorTextField): EditorAction
     data class OnDeleteTextField(val textField: EditorTextField): EditorAction
+    data object OnLeaveDialogDismiss: EditorAction
+    data object OnLeaveDialogConfirm: EditorAction
 }

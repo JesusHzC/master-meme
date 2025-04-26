@@ -3,19 +3,31 @@ package com.jesushz.mastermeme.editor.presentation
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.toRoute
 import com.jesushz.mastermeme.core.util.Routes
 import com.jesushz.mastermeme.editor.data.EditorTextField
+import com.jesushz.mastermeme.editor.domain.use_case.SaveMemeUseCase
+import com.jesushz.mastermeme.editor.presentation.EditorEvent.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class EditorViewModel(
-    savedStateHandle: SavedStateHandle
+    savedStateHandle: SavedStateHandle,
+    private val saveMemeUseCase: SaveMemeUseCase
 ): ViewModel() {
 
     private val _state = MutableStateFlow(EditorState())
     val state = _state.asStateFlow()
+
+    private val _event = Channel<EditorEvent>()
+    val event = _event.receiveAsFlow()
 
     init {
         _state.update {
@@ -43,7 +55,12 @@ class EditorViewModel(
                 }
             }
             EditorAction.OnBackClick -> {
-                TODO()
+                _state
+                    .update {
+                        it.copy(
+                            showLeaveDialog = true
+                        )
+                    }
             }
             EditorAction.OnClearTextClick -> {
                 _state.update {
@@ -59,7 +76,23 @@ class EditorViewModel(
                 }
             }
             is EditorAction.OnSaveMemeClick -> {
-                // Save bitmap
+                viewModelScope.launch(Dispatchers.IO) {
+                    saveMemeUseCase.invoke(action.image)
+                        .fold(
+                            onSuccess = {
+                                withContext(Dispatchers.Main) {
+                                    _event.send(OnSaveMemeSuccess)
+                                }
+                            },
+                            onFailure = {
+                                withContext(Dispatchers.Main) {
+                                    _event.send(
+                                        OnSaveMemeError(it.message ?: "Unknown error")
+                                    )
+                                }
+                            }
+                        )
+                }
             }
             EditorAction.OnSaveTextClick -> {
                 _state.update {
@@ -150,6 +183,17 @@ class EditorViewModel(
                     )
                 }
             }
+
+            EditorAction.OnLeaveDialogDismiss -> {
+                _state
+                    .update {
+                        it.copy(
+                            showLeaveDialog = false
+                        )
+                    }
+            }
+
+            else -> Unit
         }
     }
 

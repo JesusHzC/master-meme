@@ -1,6 +1,7 @@
 package com.jesushz.mastermeme
 
 import android.app.Application
+import com.jesushz.mastermeme.core.database.di.databaseModule
 import com.jesushz.mastermeme.editor.di.editorModule
 import com.jesushz.mastermeme.home.di.homeModule
 import org.koin.android.ext.koin.androidContext
@@ -14,7 +15,7 @@ class MasterMemeApp: Application() {
         startKoin {
             androidLogger()
             androidContext(this@MasterMemeApp)
-            modules(homeModule, editorModule)
+            modules(homeModule, editorModule, databaseModule)
         }
     }
 

@@ -15,5 +15,6 @@ data class EditorState(
     val fontSizeSelectedSp: TextUnit = 30.sp,
     val colorSelected: Color = Color.White,
     val textFieldList: List<EditorTextField> = emptyList(),
-    val currentTextField: EditorTextField? = null
+    val currentTextField: EditorTextField? = null,
+    val showLeaveDialog: Boolean = false
 )

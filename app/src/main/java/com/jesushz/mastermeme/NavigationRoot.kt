@@ -39,6 +39,13 @@ private fun NavGraphBuilder.homeGraph(navController: NavHostController) {
             EditorScreenRoot(
                 onNavigateUp = {
                     navController.navigateUp()
+                },
+                onNavigateToHome = {
+                    navController.navigate(Routes.HomeScreen) {
+                        popUpTo(Routes.HomeGraph) {
+                            inclusive = true
+                        }
+                    }
                 }
             )
         }
