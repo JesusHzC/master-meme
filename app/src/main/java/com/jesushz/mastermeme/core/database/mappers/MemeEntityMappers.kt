@@ -8,6 +8,7 @@ fun MemeEntity.toMeme(): Meme {
     return Meme(
         id = id,
         image = FileUtils.loadImageBitmapFromPath(path),
+        path = path,
         isFavorite = isFavorite
     )
 }

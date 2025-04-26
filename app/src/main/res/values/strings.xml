@@ -18,4 +18,7 @@
     <string name="leave">Leave</string>
     <string name="cancel">Cancel</string>
     <string name="mark_as_favorite">Mark as favorite</string>
+    <string name="item_selected">Item selected</string>
+    <string name="share">Share</string>
+    <string name="delete">Delete</string>
 </resources>

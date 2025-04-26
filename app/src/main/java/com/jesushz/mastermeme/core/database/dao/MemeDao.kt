@@ -1,7 +1,6 @@
 package com.jesushz.mastermeme.core.database.dao
 
 import androidx.room.Dao
-import androidx.room.Delete
 import androidx.room.Query
 import androidx.room.Upsert
 import com.jesushz.mastermeme.core.database.entity.MemeEntity
@@ -19,8 +18,8 @@ interface MemeDao {
     @Query("SELECT * FROM memeentity WHERE isFavorite = 1 ORDER BY timestamp DESC")
     fun getFavoriteMemes(): Flow<List<MemeEntity>>
 
-    @Delete
-    suspend fun deleteMeme(meme: MemeEntity)
+    @Query("DELETE FROM memeentity WHERE id = :memeId")
+    suspend fun deleteMeme(memeId: String)
 
     @Query("UPDATE MemeEntity SET isFavorite = NOT isFavorite WHERE id = :memeId")
     suspend fun toggleFavorite(memeId: String)

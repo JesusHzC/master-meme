@@ -27,8 +27,8 @@ class RoomLocalMemeDataSource(
         return memeDao.getFavoriteMemes()
     }
 
-    override suspend fun deleteMeme(meme: MemeEntity) {
-        return memeDao.deleteMeme(meme)
+    override suspend fun deleteMeme(memeId: String) {
+        return memeDao.deleteMeme(memeId)
     }
 
     override suspend fun toggleFavorite(memeId: String) {

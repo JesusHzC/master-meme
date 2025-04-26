@@ -8,7 +8,7 @@ interface LocalMemeDataSource {
     suspend fun upsertMeme(meme: MemeEntity): Result<Unit>
     fun getNewestMemes(): Flow<List<MemeEntity>>
     fun getFavoriteMemes(): Flow<List<MemeEntity>>
-    suspend fun deleteMeme(meme: MemeEntity)
+    suspend fun deleteMeme(memeId: String)
     suspend fun toggleFavorite(memeId: String)
 
 }

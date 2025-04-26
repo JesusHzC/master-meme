@@ -9,7 +9,7 @@ import com.jesushz.mastermeme.core.database.entity.MemeEntity
     entities = [
         MemeEntity::class
     ],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 abstract class MasterMemeDatabase: RoomDatabase() {

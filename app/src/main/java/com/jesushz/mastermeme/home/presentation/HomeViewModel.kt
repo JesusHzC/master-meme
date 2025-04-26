@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jesushz.mastermeme.core.database.mappers.toMeme
 import com.jesushz.mastermeme.home.data.models.DropdownMenu
+import com.jesushz.mastermeme.home.domain.use_case.DeleteMemeUseCase
 import com.jesushz.mastermeme.home.domain.use_case.FavoritesMemesUseCase
 import com.jesushz.mastermeme.home.domain.use_case.NewestMemesUseCase
 import com.jesushz.mastermeme.home.domain.use_case.ToggleFavoriteUseCase
@@ -27,7 +28,8 @@ import kotlinx.coroutines.launch
 class HomeViewModel(
     private val newestMemesUseCase: NewestMemesUseCase,
     private val favoritesMemesUseCase: FavoritesMemesUseCase,
-    private val toggleFavoriteUseCase: ToggleFavoriteUseCase
+    private val toggleFavoriteUseCase: ToggleFavoriteUseCase,
+    private val deleteMemesUseCase: DeleteMemeUseCase
 ): ViewModel() {
 
     private val _state = MutableStateFlow(HomeState())
@@ -90,6 +92,13 @@ class HomeViewModel(
             is HomeAction.OnToggleFavorite -> {
                 viewModelScope.launch(Dispatchers.IO) {
                     toggleFavoriteUseCase.invoke(action.memeId)
+                }
+            }
+            is HomeAction.OnDeleteClick -> {
+                viewModelScope.launch(Dispatchers.IO) {
+                    action.memes.forEach { meme ->
+                        deleteMemesUseCase.invoke(meme)
+                    }
                 }
             }
             else -> Unit
