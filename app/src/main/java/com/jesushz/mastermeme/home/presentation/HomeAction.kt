@@ -11,5 +11,6 @@ sealed interface HomeAction {
     data object OnDropdownMenuExpanded: HomeAction
     data object OnDropdownMenuDismiss: HomeAction
     data class OnTemplateSelected(val template: MemeTemplate): HomeAction
+    data class OnToggleFavorite(val memeId: String): HomeAction
 
 }

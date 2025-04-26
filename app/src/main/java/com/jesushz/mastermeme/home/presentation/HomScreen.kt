@@ -13,12 +13,20 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.outlined.Favorite
+import androidx.compose.material.icons.outlined.FavoriteBorder
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -111,13 +119,35 @@ private fun HomeScreen(
                         key = { it.id }
                     ) { meme ->
                         meme.image?.let {
-                            Image(
+                            Box(
                                 modifier = Modifier
-                                    .aspectRatio(1f),
-                                bitmap = meme.image,
-                                contentDescription = null,
-                                contentScale = ContentScale.FillBounds
-                            )
+                            ) {
+                                Image(
+                                    modifier = Modifier
+                                        .aspectRatio(1f),
+                                    bitmap = meme.image,
+                                    contentDescription = null,
+                                    contentScale = ContentScale.FillBounds
+                                )
+                                IconButton(
+                                    onClick = {
+                                        onAction(HomeAction.OnToggleFavorite(meme.id))
+                                    },
+                                    modifier = Modifier
+                                        .align(Alignment.BottomEnd)
+                                ) {
+                                    Icon(
+                                        imageVector = if (meme.isFavorite) {
+                                            Icons.Filled.Favorite
+                                        } else {
+                                            Icons.Outlined.FavoriteBorder
+                                        },
+                                        contentDescription = stringResource(R.string.mark_as_favorite),
+                                        tint = MaterialTheme.colorScheme.onPrimary,
+                                        modifier = Modifier.shadow(8.dp, shape = CircleShape)
+                                    )
+                                }
+                            }
                         }
                     }
                 }

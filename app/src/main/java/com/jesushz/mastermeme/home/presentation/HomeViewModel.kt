@@ -8,6 +8,8 @@ import com.jesushz.mastermeme.core.database.mappers.toMeme
 import com.jesushz.mastermeme.home.data.models.DropdownMenu
 import com.jesushz.mastermeme.home.domain.use_case.FavoritesMemesUseCase
 import com.jesushz.mastermeme.home.domain.use_case.NewestMemesUseCase
+import com.jesushz.mastermeme.home.domain.use_case.ToggleFavoriteUseCase
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -20,10 +22,12 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 
 class HomeViewModel(
     private val newestMemesUseCase: NewestMemesUseCase,
     private val favoritesMemesUseCase: FavoritesMemesUseCase,
+    private val toggleFavoriteUseCase: ToggleFavoriteUseCase
 ): ViewModel() {
 
     private val _state = MutableStateFlow(HomeState())
@@ -81,6 +85,11 @@ class HomeViewModel(
                     it.copy(
                         dropdownIsExpanded = true
                     )
+                }
+            }
+            is HomeAction.OnToggleFavorite -> {
+                viewModelScope.launch(Dispatchers.IO) {
+                    toggleFavoriteUseCase.invoke(action.memeId)
                 }
             }
             else -> Unit
