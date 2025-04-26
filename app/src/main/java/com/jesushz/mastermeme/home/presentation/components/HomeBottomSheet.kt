@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
@@ -46,6 +47,8 @@ fun HomeBottomSheet(
         ModalBottomSheet(
             onDismissRequest = onDismissBottomSheet,
             sheetState = sheetState,
+            modifier = Modifier
+                .systemBarsPadding()
         ) {
             Column(
                 modifier = Modifier
