@@ -1,4 +1,4 @@
-package com.jesushz.mastermeme.editor.domain.use_case
+package com.jesushz.mastermeme.home.domain.use_case
 
 import com.jesushz.mastermeme.editor.domain.LocalMemeDataSource
 

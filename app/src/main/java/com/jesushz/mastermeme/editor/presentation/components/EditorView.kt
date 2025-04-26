@@ -20,7 +20,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.util.fastForEach
-import com.jesushz.mastermeme.core.presentation.ui.ImageUtils.getImageSizeFromResource
+import com.jesushz.mastermeme.core.util.ImageUtils.getImageSizeFromResource
 import androidx.core.graphics.createBitmap
 import com.jesushz.mastermeme.editor.data.EditorTextField
 

@@ -1,12 +1,18 @@
 package com.jesushz.mastermeme.home.presentation
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -25,6 +31,7 @@ import com.jesushz.mastermeme.core.presentation.designsystem.components.MasterMe
 import com.jesushz.mastermeme.core.presentation.designsystem.theme.MasterMemeTheme
 import com.jesushz.mastermeme.home.data.MemeTemplate
 import com.jesushz.mastermeme.home.presentation.components.HomeBottomSheet
+import kotlinx.coroutines.launch
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -81,11 +88,41 @@ private fun HomeScreen(
             )
         }
     ) { innerPadding ->
-        EmptyList(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(innerPadding)
-        )
+        when {
+            state.memesList.isEmpty() -> {
+                EmptyList(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(innerPadding)
+                )
+            }
+            else -> {
+                LazyVerticalGrid(
+                    columns = GridCells.Fixed(2),
+                    verticalArrangement = Arrangement.spacedBy(8.dp),
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(innerPadding)
+                        .padding(16.dp)
+                ) {
+                    items(
+                        items = state.memesList,
+                        key = { it.id }
+                    ) { meme ->
+                        meme.image?.let {
+                            Image(
+                                modifier = Modifier
+                                    .aspectRatio(1f),
+                                bitmap = meme.image,
+                                contentDescription = null,
+                                contentScale = ContentScale.FillBounds
+                            )
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 

@@ -1,4 +1,4 @@
-package com.jesushz.mastermeme.core.presentation.ui
+package com.jesushz.mastermeme.core.util
 
 import android.content.Context
 import android.graphics.drawable.BitmapDrawable
