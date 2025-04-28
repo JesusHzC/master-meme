@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.jesushz.mastermeme.core.database.mappers.toMeme
 import com.jesushz.mastermeme.home.data.models.DropdownMenu
+import com.jesushz.mastermeme.home.domain.Meme
 import com.jesushz.mastermeme.home.domain.use_case.DeleteMemeUseCase
 import com.jesushz.mastermeme.home.domain.use_case.FavoritesMemesUseCase
 import com.jesushz.mastermeme.home.domain.use_case.NewestMemesUseCase
@@ -14,9 +15,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.flatMap
-import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.flow.onEach
@@ -32,10 +30,14 @@ class HomeViewModel(
     private val deleteMemesUseCase: DeleteMemeUseCase
 ): ViewModel() {
 
+    private var memesCacheList: List<Meme> = emptyList()
+
     private val _state = MutableStateFlow(HomeState())
     val state = _state
         .onStart {
-            getFavoritesMemes()
+            if (memesCacheList.isEmpty()) {
+                getFavoritesMemes()
+            }
         }
         .stateIn(
             scope = viewModelScope,
@@ -118,6 +120,7 @@ class HomeViewModel(
                         memesList = memes
                     )
                 }
+                memesCacheList = memes
             }
             .launchIn(viewModelScope)
     }
@@ -135,6 +138,7 @@ class HomeViewModel(
                         memesList = memes
                     )
                 }
+                memesCacheList = memes
             }
             .launchIn(viewModelScope)
     }
