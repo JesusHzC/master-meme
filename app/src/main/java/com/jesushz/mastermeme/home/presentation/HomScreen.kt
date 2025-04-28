@@ -2,6 +2,7 @@
 
 package com.jesushz.mastermeme.home.presentation
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.combinedClickable
@@ -80,6 +81,10 @@ private fun HomeScreen(
 ) {
     val selectedMemes = remember { mutableStateListOf<Meme>() }
     val selectionMode = selectedMemes.isNotEmpty()
+
+    BackHandler(enabled = selectionMode) {
+        selectedMemes.clear()
+    }
 
     HomeBottomSheet(
         showBottomSheet = state.showBottomSheet,
