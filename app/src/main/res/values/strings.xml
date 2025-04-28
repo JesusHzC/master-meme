@@ -21,4 +21,5 @@
     <string name="item_selected">Item selected</string>
     <string name="share">Share</string>
     <string name="delete">Delete</string>
+    <string name="rotate">Rotate</string>
 </resources>

@@ -4,6 +4,7 @@ import androidx.annotation.DrawableRes
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -95,7 +96,7 @@ fun TextActions(
 
             AnimatedVisibility(showTextColor) {
                 ColorSelector(
-                    color = colorSelected,
+                    colorSelected = colorSelected,
                     onColorClick = { color ->
                         onColorSelected(color)
                     }
@@ -186,7 +187,7 @@ private fun FontSizeSlider(
 
 @Composable
 private fun ColorSelector(
-    color: Color,
+    colorSelected: Color,
     onColorClick: (Color) -> Unit
 ) {
     LazyRow(
@@ -197,9 +198,27 @@ private fun ColorSelector(
         items(editorColors, key = { it.hashCode() }) { color ->
             Box(
                 modifier = Modifier
-                    .size(32.dp)
+                    .size(
+                        if (color == colorSelected) 40.dp
+                        else 30.dp
+                    )
                     .clip(CircleShape)
                     .background(color)
+                    .then (
+                        if (color == colorSelected) {
+                            Modifier
+                                .border(
+                                    width = 3.dp,
+                                    color = when (color) {
+                                        Color.Black -> Color.White
+                                        else -> Color.Black
+                                    },
+                                    shape = CircleShape
+                                )
+                        } else {
+                            Modifier
+                        }
+                    )
                     .clickable { onColorClick(color) }
             )
         }
